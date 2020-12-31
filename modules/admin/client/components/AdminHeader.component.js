@@ -45,7 +45,10 @@ export default function AdminHeader() {
             </li>
             <li
               className={classnames({
-                active: path === '/admin/acquisition-stories',
+                active: [
+                  '/admin/acquisition-stories',
+                  '/admin/acquisition-stories/analysis',
+                ].includes(path),
               })}
             >
               <a href="/admin/acquisition-stories">Acquisition stories</a>
