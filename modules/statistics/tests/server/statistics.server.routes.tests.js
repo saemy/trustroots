@@ -2,9 +2,11 @@ const should = require('should');
 const request = require('supertest');
 const path = require('path');
 const mongoose = require('mongoose');
+const express = require(path.resolve('./config/lib/express'));
+const utils = require(path.resolve('./testutils/server/data.server.testutil'));
+
 const User = mongoose.model('User');
 const Offer = mongoose.model('Offer');
-const express = require(path.resolve('./config/lib/express'));
 
 /**
  * Globals
@@ -131,6 +133,8 @@ describe('Statistics CRUD tests', function () {
       });
     });
 
+    after(utils.clearDatabase);
+
     it('should be able to read statistics when not logged in', function (done) {
       // Read statistics
       agent
@@ -188,13 +192,6 @@ describe('Statistics CRUD tests', function () {
               return done(statsReadErr);
             });
         });
-    });
-
-    after(function (done) {
-      // Clean out
-      User.deleteMany().exec(function () {
-        Offer.deleteMany().exec(done);
-      });
     });
   });
 

@@ -2,8 +2,10 @@ const should = require('should');
 const request = require('supertest');
 const path = require('path');
 const mongoose = require('mongoose');
-const User = mongoose.model('User');
 const express = require(path.resolve('./config/lib/express'));
+const utils = require(path.resolve('./testutils/server/data.server.testutil'));
+
+const User = mongoose.model('User');
 
 /**
  * Globals
@@ -59,6 +61,8 @@ describe('Support CRUD tests', function () {
     });
   });
 
+  afterEach(utils.clearDatabase);
+
   it('should be able to send support message when not logged in', function (done) {
     agent
       .post('/api/support')
@@ -110,10 +114,5 @@ describe('Support CRUD tests', function () {
             return done(supportSaveErr);
           });
       });
-  });
-
-  afterEach(function (done) {
-    // Clean out
-    User.deleteMany().exec(done);
   });
 });

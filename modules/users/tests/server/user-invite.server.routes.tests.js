@@ -1,13 +1,14 @@
 const request = require('supertest');
 const path = require('path');
 const mongoose = require('mongoose');
-const User = mongoose.model('User');
 const inviteCodeService = require(path.resolve(
   './modules/users/server/services/invite-codes.server.service',
 ));
 const express = require(path.resolve('./config/lib/express'));
-
+const utils = require(path.resolve('./testutils/server/data.server.testutil'));
 require('should');
+
+const User = mongoose.model('User');
 
 /**
  * Globals
@@ -55,6 +56,8 @@ describe('User invites CRUD tests', function () {
     // Save a user to the test db
     user.save(done);
   });
+
+  afterEach(utils.clearDatabase);
 
   it('should be able to receive invite code when authenticated', function (done) {
     agent
@@ -179,9 +182,5 @@ describe('User invites CRUD tests', function () {
       .expect(301)
       .expect('Location', '/signup?code=CODE')
       .end(done);
-  });
-
-  afterEach(function (done) {
-    User.deleteMany().exec(done);
   });
 });
