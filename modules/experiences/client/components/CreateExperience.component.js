@@ -125,7 +125,7 @@ export default function CreateExperience({ userFrom, userTo }) {
   let tabs = [
     {
       id: 'interactions',
-      title: t('How do you know them'),
+      title: t('How do you know them?'),
       component: interactionsTab,
     },
     {
